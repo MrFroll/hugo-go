@@ -7,6 +7,8 @@ ARG HUGO_BINARY=hugo_extended_${hugo_version}_Linux-64bit.deb
 ARG GO_BINARY=go${golang_version}.tar.gz
 ENV PATH="/usr/local/go/bin:${PATH}"
 
+ADD scripts/start.sh /root/script.sh
+
 WORKDIR /web
 
 RUN apt update \
@@ -21,4 +23,4 @@ RUN curl -sL -o /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download
 
 RUN mkdir /root/.ssh
 
-CMD if [ -z "$SSH_KEY" ] ; then echo SSH key not provided ; else echo $SSH_KEY > /root/.ssh/id_rsa  ; fi
+ENTRYPOINT ["/bin/bash", "/root/script.sh"]
