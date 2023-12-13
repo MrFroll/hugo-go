@@ -8,10 +8,6 @@ trigger:
   event:
     - tag
 
-environment:
-  GITLAB_USER:
-    from_secret: gitlab_user
-
 steps:
   - name: build-and-push
     image: plugins/docker
@@ -22,3 +18,6 @@ steps:
       repo: registry.gitlab.com/${GITLAB_USER}/hugo-go
       tags: ${DRONE_TAG}
       registry: registry.gitlab.com
+    environment:
+      GITLAB_USER:
+        from_secret: gitlab_user
