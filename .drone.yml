@@ -15,9 +15,9 @@ steps:
       username: gitlab-ci-token
       password:
         from_secret: gitlab_token
-      repo: registry.gitlab.com/$GITLAB_USER/hugo-go
+      repo: registry.gitlab.com/${GITLAB_USERNAME}/hugo-go
       tags: ${DRONE_TAG}
       registry: registry.gitlab.com
     environment:
-      GITLAB_USER:
-        from_secret: gitlab_user
+      GITLAB_USERNAME:
+        from_secret: gitlab_username
