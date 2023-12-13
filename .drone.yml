@@ -2,24 +2,23 @@ kind: pipeline
 type: docker
 name: default
 
-steps:
-  - name: build
-    image: docker
-    commands:
-      - docker login -u $GITLAB_USER -p $GITLAB_TOKEN registry.gitlab.com
-      - docker build -t registry.gitlab.com/${GITLAB_USER}/hugo-go/hugo-go:${DRONE_TAG} .
-      - docker push registry.gitlab.com/${GITLAB_USER}/hugo-go/hugo-go:${DRONE_TAG}
-
 trigger:
+  branch:
+    - master
   event:
     - tag
 
-services:
-  - name: docker
-    image: docker:dind
-
 environment:
-  GITLAB_TOKEN:
-    from_secret: gitlab_token
   GITLAB_USER:
     from_secret: gitlab_user
+
+steps:
+  - name: build-and-push
+    image: plugins/docker
+    settings:
+      username: gitlab-ci-token
+      password:
+        from_secret: gitlab_token
+      repo: registry.gitlab.com/${GITLAB_USER}/hugo-go
+      tags: ${DRONE_TAG}
+      registry: registry.gitlab.com
