@@ -18,6 +18,3 @@ steps:
       repo: registry.gitlab.com/mrfroll/hugo-go
       tags: ${DRONE_TAG}
       registry: registry.gitlab.com
-    environment:
-      GITLAB_USERNAME:
-        from_secret: gitlab_username
